@@ -6,6 +6,7 @@ from constants import *
 from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
+from shot import Shot
 
 def main():
     pygame.init()
@@ -17,7 +18,8 @@ def main():
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
-
+    shots = pygame.sprite.Group()
+    
     # Creates asteroid & field group membership & initializes
     Asteroid.containers = (asteroids, updatable, drawable)
     AsteroidField.containers = (updatable)
@@ -26,6 +28,9 @@ def main():
     # Adds player group membership class variable & initializes player
     Player.containers = (updatable, drawable)
     player = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
+
+    # Adds shot group membership class variable & initializes shots
+    Shot.containers = (updatable, drawable, shots)
 
     while True:
         # Makes the exit button work
@@ -40,6 +45,11 @@ def main():
             if aster.collisions(player) == True:
                 print("Game Over!")
                 return
+        
+            for bullet in shots:
+                if aster.collisions(bullet) == True:
+                    bullet.kill()
+                    aster.kill()
 
         screen.fill("black")
 
