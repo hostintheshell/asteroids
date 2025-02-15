@@ -4,13 +4,28 @@
 import pygame
 from constants import *
 from player import Player
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
 
 def main():
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-    player = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
     clock = pygame.time.Clock()
     dt = 0
+    
+    # Creates groups for objects
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    asteroids = pygame.sprite.Group()
+
+    # Creates asteroid & field group membership & initializes
+    Asteroid.containers = (asteroids, updatable, drawable)
+    AsteroidField.containers = (updatable)
+    asteroid_field = AsteroidField()
+
+    # Adds player group membership class variable & initializes player
+    Player.containers = (updatable, drawable)
+    player = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
 
     while True:
         # Makes the exit button work
@@ -18,9 +33,14 @@ def main():
             if event.type == pygame.QUIT:
                 return
 
-        # Draws and refreshes the screen
+        # Draws and refreshes the objects/screen
+        updatable.update(dt)
+
         screen.fill("black")
-        player.draw(screen)
+
+        for obj in drawable:
+            obj.draw(screen)
+
         pygame.display.flip()
 
         # Limit the framerate to 60 fps
