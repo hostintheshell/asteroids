@@ -36,6 +36,11 @@ def main():
         # Draws and refreshes the objects/screen
         updatable.update(dt)
 
+        for aster in asteroids:
+            if aster.collisions(player) == True:
+                print("Game Over!")
+                return
+
         screen.fill("black")
 
         for obj in drawable:
