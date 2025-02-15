@@ -1,3 +1,2 @@
 # asteroids
-
-Asteroids is my 3rd project
+Boot.dev 2nd Python Project
