@@ -49,7 +49,7 @@ def main():
             for bullet in shots:
                 if aster.collisions(bullet) == True:
                     bullet.kill()
-                    aster.kill()
+                    aster.split()
 
         screen.fill("black")
 
